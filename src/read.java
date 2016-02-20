@@ -3,7 +3,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import uiffreader.UiffStream;
-import uiffreader.UiffElements.UIFF;
 
 /**
  * Example that reads uiff from file and dumps structure to stdout
@@ -25,18 +24,13 @@ class read {
 			File file = new File(args[0]);
 			UiffStream stream = new UiffStream(new FileInputStream(file),
 					file.length(), "root") {
-
 				@Override
 				public void close() {
 					System.out.println("reading complete");
 				}
 
 			};
-			if (!stream.getString().equals("UIFF")) {
-				throw new IllegalArgumentException(
-						"stream does not start with the 'UIFF' header");
-			}
-			System.out.println(new UIFF().read(stream));
+			System.out.println(stream.getElement());
 		}
 	}
 
