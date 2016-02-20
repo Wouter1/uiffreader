@@ -1,4 +1,4 @@
-# uiffreader
+# UIFF Reader
 
 This is a tool to read in uiff/tvd files. The 'read' program just reads the file and spits out a structure description.
 Other programs can use extend this tool, to extract information like images from the uiff file.
