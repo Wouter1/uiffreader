@@ -31,7 +31,10 @@ public class udih extends AbstractLinkedElement {
 
 	@Override
 	public Object getContent() {
-		return content;
+		List<Object> cont = new ArrayList<Object>();
+		cont.addAll(content);
+		cont.add(next().getContent());
+		return cont;
 	}
 
 }
