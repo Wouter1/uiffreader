@@ -36,7 +36,8 @@ public class strh extends AbstractElement {
 /**
  * Inner first element of a strh which also has the header "strh". This element
  * should not trigger automatically as that might override the top level strh.
- * Therefore it's only an inner class at this point.
+ * Therefore it's only an inner class at this point and not part of the
+ * ElementFactory.
  * 
  * @author W.Pasman
  *
@@ -45,7 +46,7 @@ class strhInner extends AbstractLinkedElementWithElement {
 
 	@Override
 	public String getHeader() {
-		return "----";
+		return "strh";
 	}
 
 }
