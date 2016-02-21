@@ -8,3 +8,4 @@ The extension of an uiff file can probably be anything, you need to check the fi
 This format was reverse engineered from a single ultrasound video coming from an Telemed Ultrasound scanner.
 Although it works for my single tvd file, I probably guessed a few things wrong. Please report if you have troubles.
 
+I found that reading in a 80Mb uiff file takes much more memory than that. It seems int arrays are not stored very efficiently in Java. Give the JVM at least 512Mb using ```-Xmx512m```
