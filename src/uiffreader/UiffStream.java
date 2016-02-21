@@ -188,7 +188,7 @@ public abstract class UiffStream {
 		// FIXME can we use geteElement here?
 		String newheader = getString();
 		UiffStream substr = substream(size - 4, newheader);
-		Element element = ElementFactory.get(newheader).read(substr);
+		Element element = substr.encounteredNewElement(newheader);
 		substr.close();
 		return element;
 	}
@@ -202,7 +202,10 @@ public abstract class UiffStream {
 	 * @throws IOException
 	 */
 	public Element getElement() throws IOException {
-		String newheader = getString();
+		return encounteredNewElement(getString());
+	}
+
+	private Element encounteredNewElement(String newheader) throws IOException {
 		return ElementFactory.get(newheader).read(this);
 
 	}
