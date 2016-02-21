@@ -13,25 +13,38 @@ public class vids extends AbstractElement {
 		return "vids";
 	}
 
+	private final static int PALETTE_SIZE = 254;
+
 	@Override
 	public Element read(UiffStream stream) throws IOException {
-		// create locally, and pass to setContent.
-		// This allows us to decide not to store the content.
 		List<Integer> settings = new ArrayList<Integer>();
 		List<Integer> palette = new ArrayList<Integer>();
-		List<List<Integer>> data = new ArrayList<List<Integer>>();
-		data.add(settings);
-		data.add(palette);
 
-		for (int n = 0; n < 36; n++) {
+		for (int n = 0; n < 37; n++) {
 			settings.add((int) stream.getInt());
 		}
-		long palettesize = stream.getInt();
-		for (int n = 0; n < palettesize; n++) {
+		for (int n = 0; n < 5 * PALETTE_SIZE; n++) {
 			palette.add((int) stream.getInt());
 		}
 
-		setContent(data);
+		setContent(new videoInfo(settings, palette));
 		return this;
 	}
+}
+
+class videoInfo {
+
+	private List<Integer> settings;
+	private List<Integer> palette;
+
+	public videoInfo(List<Integer> settings, List<Integer> palette) {
+		this.settings = settings;
+		this.palette = palette;
+	}
+
+	@Override
+	public String toString() {
+		return "videoInfo[" + settings + "]";
+	}
+
 }
