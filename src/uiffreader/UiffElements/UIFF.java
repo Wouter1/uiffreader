@@ -14,33 +14,26 @@ import uiffreader.UiffStream;
  */
 public class UIFF extends AbstractLinkedElement {
 
-	private Object content = "END";
-
 	@Override
 	public String getHeader() {
 		return "UIFF";
 	}
 
 	@Override
-	public Object getContent() {
-		return content;
-	}
-
-	@Override
 	void readContents(UiffStream stream, long subsize) throws IOException {
 		if (stream.remaining() < 10) {
-			content = "";
+			setContent("");
 			return;
 		}
 		String header = stream.getString();
 		if (header.equals("UDI ")) {
 			UiffStream substream = stream.substream(subsize - 4, "UDI");
-			content = new UDI().read(substream);
+			setContent(new UDI().read(substream));
 			substream.close();
 		} else {
 			UiffStream substream = stream.substream(subsize - 4,
 					"unknown block");
-			content = "unparsed block, size=" + substream.remaining();
+			setContent("unparsed, size=" + substream.remaining());
 			substream.close();
 		}
 	}

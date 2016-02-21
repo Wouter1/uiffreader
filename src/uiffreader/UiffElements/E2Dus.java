@@ -14,8 +14,6 @@ import uiffreader.UiffStream;
  */
 public class E2Dus extends AbstractElement {
 
-	private List<Integer> content = new ArrayList<Integer>();
-
 	@Override
 	public String getHeader() {
 		return "2Dus";
@@ -23,15 +21,12 @@ public class E2Dus extends AbstractElement {
 
 	@Override
 	public Element read(UiffStream stream) throws IOException {
+		List<Integer> data = new ArrayList<Integer>();
 		while (stream.remaining() > 0) {
-			content.add((int) stream.getInt());
+			data.add((int) stream.getInt());
 		}
+		setContent(data);
 		return this;
-	}
-
-	@Override
-	public Object getContent() {
-		return content;
 	}
 
 }

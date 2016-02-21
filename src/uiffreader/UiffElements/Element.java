@@ -1,6 +1,7 @@
 package uiffreader.UiffElements;
 
 import java.io.IOException;
+import java.util.List;
 
 import uiffreader.UiffStream;
 
@@ -43,8 +44,15 @@ public interface Element {
 	public Element read(UiffStream stream) throws IOException;
 
 	/**
-	 * @return the contents of this element. Usually an Element or
-	 *         List<Integer>.
+	 * @return the contents of this element. Usually an {@link Element} or
+	 *         {@link List}.
 	 */
 	public Object getContent();
+
+	/**
+	 * @param content
+	 *            the contents of this element. Usually an {@link Element} or
+	 *            {@link List}.
+	 */
+	public void setContent(Object content);
 }

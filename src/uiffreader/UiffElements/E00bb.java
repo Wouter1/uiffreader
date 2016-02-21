@@ -13,10 +13,6 @@ import uiffreader.UiffStream;
  *
  */
 public class E00bb extends AbstractLinkedElement {
-	List<Integer> headercontent = new ArrayList<Integer>();
-
-	int[] image = new int[0];// takes less memory than ArrayList... Already
-								// takes ~4 times the expected size...
 
 	@Override
 	public String getHeader() {
@@ -25,29 +21,50 @@ public class E00bb extends AbstractLinkedElement {
 
 	@Override
 	void readContents(UiffStream stream, long subsize) throws IOException {
+		ImageData data = new ImageData();
 		UiffStream substream = stream.substream(subsize, getHeader());
+
+		List<Integer> header = new ArrayList<Integer>();
 		for (int n = 0; n < 12; n++) {
-			headercontent.add((int) substream.getInt());
+			header.add(((int) substream.getInt()));
 		}
-		int size = getSize();
-		image = new int[size];
+		data.setHeader(header);
+		int size = data.getSize();
+		int[] image = new int[size];
 		for (int n = 0; n < size / 4; n++) {
 			image[n] = (int) substream.getInt();
 		}
+		data.setImage(image);
+		setContent(image);
 		substream.close();
 	}
 
-	private int getSize() {
+}
+
+class ImageData {
+	List<Integer> headercontent = new ArrayList<Integer>();
+
+	public int getSize() {
 		return headercontent.get(3);
 	}
 
-	@Override
-	public Object getContent() {
-		String content = "image[" + getSize() + "b]";
-		if (next() != null) {
-			content += "," + next().getContent();
-		}
-		return content;
+	/*
+	 * The actual image. takes less memory than ArrayList... Already takes ~4
+	 * times the expected size...
+	 */
+	int[] image = new int[0];
+
+	public void setHeader(List<Integer> header) {
+		headercontent = header;
+
 	}
 
+	public void setImage(int[] newImage) {
+		image = newImage;
+	}
+
+	@Override
+	public String toString() {
+		return "image[" + image.length + "bytes]";
+	}
 }

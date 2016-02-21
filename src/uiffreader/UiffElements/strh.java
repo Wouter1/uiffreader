@@ -13,8 +13,6 @@ import uiffreader.UiffStream;
  */
 public class strh extends AbstractElement {
 
-	private Element content;
-
 	@Override
 	public String getHeader() {
 		return "strh";
@@ -23,14 +21,10 @@ public class strh extends AbstractElement {
 	@Override
 	public Element read(UiffStream stream) throws IOException {
 		stream.isNextString("strh");
-		content = new strhInner().read(stream);
+		setContent(new strhInner().read(stream));
 		return this;
 	}
 
-	@Override
-	public Object getContent() {
-		return content;
-	}
 }
 
 /**

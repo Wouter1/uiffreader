@@ -1,6 +1,8 @@
 package uiffreader.UiffElements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import uiffreader.UiffStream;
 
@@ -58,5 +60,15 @@ public abstract class AbstractLinkedElement extends AbstractElement implements
 	 */
 	abstract void readContents(UiffStream stream, long subsize)
 			throws IOException;
+
+	@Override
+	public Object getContent() {
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(super.getContent());
+		if (next() != null) {
+			objects.add(next().getContent());
+		}
+		return objects;
+	}
 
 }

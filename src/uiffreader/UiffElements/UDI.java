@@ -12,8 +12,6 @@ import uiffreader.UiffStream;
  */
 public class UDI extends AbstractElement {
 
-	private Element content;
-
 	@Override
 	public String getHeader() {
 		return "UDI ";
@@ -21,12 +19,8 @@ public class UDI extends AbstractElement {
 
 	@Override
 	public Element read(UiffStream stream) throws IOException {
-		content = stream.getElement(); // should be LIST.
+		setContent(stream.getElement()); // should be LIST.
 		return this;
 	}
 
-	@Override
-	public Object getContent() {
-		return content;
-	}
 }

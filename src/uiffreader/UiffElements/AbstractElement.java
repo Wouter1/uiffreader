@@ -13,6 +13,8 @@ import uiffreader.UiffStream;
  */
 public abstract class AbstractElement implements Element {
 
+	private Object content;
+
 	@Override
 	public Element read(UiffStream stream) throws IOException {
 		System.out.println("warning: read not implemented for " + getHeader()
@@ -29,4 +31,13 @@ public abstract class AbstractElement implements Element {
 		return getHeader() + "[" + getContent() + "]";
 	}
 
+	@Override
+	public Object getContent() {
+		return content;
+	}
+
+	@Override
+	public void setContent(Object c) {
+		content = c;
+	}
 }

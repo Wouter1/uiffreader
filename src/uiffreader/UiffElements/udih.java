@@ -14,9 +14,6 @@ import uiffreader.UiffStream;
  */
 public class udih extends AbstractLinkedElement {
 
-	// first bytes in the element.
-	private List<Long> content = new ArrayList<Long>();
-
 	@Override
 	public String getHeader() {
 		return "udih";
@@ -24,17 +21,11 @@ public class udih extends AbstractLinkedElement {
 
 	@Override
 	void readContents(UiffStream stream, long subsize) throws IOException {
+		List<Long> data = new ArrayList<Long>();
 		for (int n = 0; n < subsize / 4; n++) {
-			content.add(stream.getInt());
+			data.add(stream.getInt());
 		}
-	}
-
-	@Override
-	public Object getContent() {
-		List<Object> cont = new ArrayList<Object>();
-		cont.addAll(content);
-		cont.add(next().getContent());
-		return cont;
+		setContent(data);
 	}
 
 }
