@@ -5,6 +5,7 @@ import java.io.IOException;
 import uiffreader.UiffStream;
 import uiffreader.UiffElements.ContentModifier;
 import uiffreader.UiffElements.Element;
+import uiffreader.UiffElements.ElementFactory;
 import uiffreader.UiffElements.ImageData;
 
 /**
@@ -32,6 +33,8 @@ class read {
 			}
 		};
 
+		ElementFactory elementFactory = new ElementFactory(contentModofier);
+
 		if (args.length != 1) {
 			System.out.println("usage: split <filename>");
 			return;
@@ -41,7 +44,7 @@ class read {
 		} else {
 			File file = new File(args[0]);
 			UiffStream stream = new UiffStream(new FileInputStream(file),
-					file.length(), "root", contentModofier) {
+					file.length(), "root", elementFactory) {
 				@Override
 				public void close() {
 					System.out.println("reading complete");

@@ -12,6 +12,8 @@ import java.util.Map;
 public class ElementFactory {
 	private static Map<String, Class<? extends Element>> types = new HashMap<String, Class<? extends Element>>();
 
+	private ContentModifier contentModifier = null;
+
 	static {
 		init();
 	}
@@ -36,6 +38,18 @@ public class ElementFactory {
 	}
 
 	/**
+	 * 
+	 * @param modifier
+	 *            the content modifier to use for all {@link Element}s. This is
+	 *            part of the stream (and not of the {@link ElementFactory}) so
+	 *            that you can make multiple streams, each with different
+	 *            {@link ContentModifier}s.
+	 */
+	public ElementFactory(ContentModifier modifier) {
+		this.contentModifier = modifier;
+	}
+
+	/**
 	 * Add new type to list of know types.
 	 * 
 	 * @param type
@@ -56,7 +70,7 @@ public class ElementFactory {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public static Element get(String header) {
+	public Element get(String header) {
 		if (header.length() != 4) {
 			throw new IllegalArgumentException("header '" + header
 					+ "' is not of length 4");
@@ -67,7 +81,12 @@ public class ElementFactory {
 					+ "'");
 		}
 		try {
-			return clazz.newInstance();
+			Element element = clazz.newInstance();
+			if (contentModifier != null) {
+				element.setContentModifier(contentModifier);
+			}
+			return element;
+
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException("failed to create " + clazz, e);
 		} catch (InstantiationException e) {

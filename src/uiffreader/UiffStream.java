@@ -4,7 +4,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import uiffreader.UiffElements.ContentModifier;
 import uiffreader.UiffElements.Element;
 import uiffreader.UiffElements.ElementFactory;
 
@@ -20,7 +19,7 @@ public abstract class UiffStream {
 	private UiffStream substream;
 	private long remaining;
 	private String header;
-	private ContentModifier contentModifier;
+	private ElementFactory elementFactory;
 
 	/**
 	 * constructor. Use only at top level. Use {@link #substream(int)} for
@@ -33,15 +32,19 @@ public abstract class UiffStream {
 	 *            read.
 	 * @param header
 	 *            the header of the object we're reading. For error mesages.
-	 * @param cmodifier
-	 *            the content modifier to use for all {@link Element}s.
+	 * @param elementFactory
+	 *            an instance of {@link ElementFactory}, or null. If null, a
+	 *            default {@link ElementFactory} will be used.
 	 */
 	public UiffStream(InputStream stream, long length, String header,
-			ContentModifier cmodifier) {
+			ElementFactory elementFactory) {
 		this.stream = stream;
 		this.remaining = length;
 		this.header = header;
-		this.contentModifier = cmodifier;
+		if (elementFactory == null) {
+			elementFactory = new ElementFactory(null);
+		}
+		this.elementFactory = elementFactory;
 	}
 
 	public UiffStream substream(final long length, final String newheader) {
@@ -57,7 +60,7 @@ public abstract class UiffStream {
 					+ " bytes data which is more than remaining in the "
 					+ header);
 		}
-		substream = new UiffStream(stream, length, newheader, contentModifier) {
+		substream = new UiffStream(stream, length, newheader, elementFactory) {
 			@Override
 			public void close() {
 				closeSubstream(length);
@@ -212,11 +215,9 @@ public abstract class UiffStream {
 	}
 
 	private Element encounteredNewElement(String newheader) throws IOException {
-		Element element = ElementFactory.get(newheader);
-		if (contentModifier != null) {
-			element.setContentModifier(contentModifier);
-		}
+		Element element = elementFactory.get(newheader);
 		return element.read(this);
 
 	}
+
 }

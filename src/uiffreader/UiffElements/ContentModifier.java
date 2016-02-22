@@ -1,10 +1,18 @@
 package uiffreader.UiffElements;
 
+import uiffreader.UiffStream;
+
+/**
+ * A content modifier is capable of inspecting and modifying the contents of an
+ * element, before it actually is stored in the element. It can be attached to
+ * an {@link UiffStream}, which will then attach it to all objects being
+ * created.
+ * 
+ */
 public interface ContentModifier {
 
 	/**
-	 * A content modifier is capable of inspecting and modifying the contents of
-	 * an element, before it actually is stored in the element.
+	 * modify the contents , before it actually is stored in the element.
 	 * 
 	 * @param elt
 	 *            the element that is receiving the content

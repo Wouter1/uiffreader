@@ -52,7 +52,8 @@ public interface Element {
 	/**
 	 * @param content
 	 *            the contents of this element. Usually an {@link Element} or
-	 *            {@link List}.
+	 *            {@link List}. The {@link ContentModifier} gets its hands on
+	 *            the object before it's actually stored.
 	 */
 	public void setContent(Object content);
 
