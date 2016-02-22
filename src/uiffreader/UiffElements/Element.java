@@ -55,4 +55,14 @@ public interface Element {
 	 *            {@link List}.
 	 */
 	public void setContent(Object content);
+
+	/**
+	 * When a ContentModifier is set for an element, the {@link ContentModifier}
+	 * can inspect and change contents that are intended to be placed as content
+	 * in the element.
+	 * 
+	 * @param modifier
+	 */
+	public void setContentModifier(ContentModifier modifier);
+
 }

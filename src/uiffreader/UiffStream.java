@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import uiffreader.UiffElements.ContentModifier;
 import uiffreader.UiffElements.Element;
 import uiffreader.UiffElements.ElementFactory;
 
@@ -19,6 +20,7 @@ public abstract class UiffStream {
 	private UiffStream substream;
 	private long remaining;
 	private String header;
+	private ContentModifier contentModifier;
 
 	/**
 	 * constructor. Use only at top level. Use {@link #substream(int)} for
@@ -31,11 +33,15 @@ public abstract class UiffStream {
 	 *            read.
 	 * @param header
 	 *            the header of the object we're reading. For error mesages.
+	 * @param cmodifier
+	 *            the content modifier to use for all {@link Element}s.
 	 */
-	public UiffStream(InputStream stream, long length, String header) {
+	public UiffStream(InputStream stream, long length, String header,
+			ContentModifier cmodifier) {
 		this.stream = stream;
 		this.remaining = length;
 		this.header = header;
+		this.contentModifier = cmodifier;
 	}
 
 	public UiffStream substream(final long length, final String newheader) {
@@ -51,7 +57,7 @@ public abstract class UiffStream {
 					+ " bytes data which is more than remaining in the "
 					+ header);
 		}
-		substream = new UiffStream(stream, length, newheader) {
+		substream = new UiffStream(stream, length, newheader, contentModifier) {
 			@Override
 			public void close() {
 				closeSubstream(length);
@@ -206,8 +212,11 @@ public abstract class UiffStream {
 	}
 
 	private Element encounteredNewElement(String newheader) throws IOException {
-		return ElementFactory.get(newheader).read(this);
+		Element element = ElementFactory.get(newheader);
+		if (contentModifier != null) {
+			element.setContentModifier(contentModifier);
+		}
+		return element.read(this);
 
 	}
-
 }

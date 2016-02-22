@@ -15,6 +15,16 @@ public abstract class AbstractElement implements Element {
 
 	private Object content;
 
+	/**
+	 * Default modifier, which does not modify anything.
+	 */
+	private ContentModifier contentModifier = new ContentModifier() {
+		@Override
+		public Object modify(Element elt, Object contents) {
+			return contents;
+		}
+	};
+
 	@Override
 	public Element read(UiffStream stream) throws IOException {
 		System.out.println("warning: read not implemented for " + getHeader()
@@ -36,8 +46,20 @@ public abstract class AbstractElement implements Element {
 		return content;
 	}
 
+	/**
+	 * Sets the content modifier to given type.
+	 * 
+	 * @param modifier
+	 */
+	@Override
+	public void setContentModifier(ContentModifier modifier) {
+		if (modifier == null)
+			throw new NullPointerException("modifier is null");
+		contentModifier = modifier;
+	}
+
 	@Override
 	public void setContent(Object c) {
-		content = c;
+		content = contentModifier.modify(this, c);
 	}
 }
