@@ -4,12 +4,16 @@ import java.io.IOException;
 
 import uiffreader.UiffStream;
 import uiffreader.UiffElements.ContentModifier;
+import uiffreader.UiffElements.E00bb;
 import uiffreader.UiffElements.Element;
 import uiffreader.UiffElements.ElementFactory;
 import uiffreader.UiffElements.ImageData;
 
 /**
- * Example that reads uiff from file and dumps structure to stdout
+ * Example that reads uiff from file and dumps structure to stdout and modifies
+ * some content. Without the content modifier, reading a 80Mb uiff file consumes
+ * 450MB memory, If we remove the image contents (but keep the header) we need
+ * hardly any memory (less than 10MB)
  * 
  * @author W.Pasman
  *
@@ -19,21 +23,20 @@ class read {
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException {
 
-		ContentModifier contentModofier = new ContentModifier() {
+		ContentModifier contentModifier = new ContentModifier() {
 			@Override
 			public Object modify(Element elt, Object contents) {
-				System.out.println("element: " + elt);
-				if (elt.getHeader().equals("00bb")) {
-					System.out.println("found image!"
-							+ ((ImageData) contents).getSize());
-					// uncomment next line -> do not store the image data.
-					// contents = null;
+				if (elt instanceof E00bb) {
+					ImageData data = (ImageData) contents;
+					System.out.println("found image!" + data.getSize());
+					// remove actual image data as modification (saves memory)
+					data.setImage(null);
 				}
 				return contents;
 			}
 		};
 
-		ElementFactory elementFactory = new ElementFactory(contentModofier);
+		ElementFactory elementFactory = new ElementFactory(contentModifier);
 
 		if (args.length != 1) {
 			System.out.println("usage: split <filename>");

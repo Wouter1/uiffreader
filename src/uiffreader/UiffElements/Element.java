@@ -58,9 +58,9 @@ public interface Element {
 	public void setContent(Object content);
 
 	/**
-	 * When a ContentModifier is set for an element, the {@link ContentModifier}
-	 * can inspect and change contents that are intended to be placed as content
-	 * in the element.
+	 * When a ContentModifier is set for an element, it must be called, to
+	 * inspect and change contents that are intended to be placed as content in
+	 * the element.
 	 * 
 	 * @param modifier
 	 */

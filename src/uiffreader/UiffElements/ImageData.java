@@ -33,6 +33,6 @@ public class ImageData {
 
 	@Override
 	public String toString() {
-		return "image[" + image.length + "bytes]";
+		return "image[" + getSize() + "bytes]";
 	}
 }
