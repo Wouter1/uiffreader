@@ -31,6 +31,24 @@ public class ImageData {
 		image = newImage;
 	}
 
+	/**
+	 * Get the image. Convert to byte[]
+	 * 
+	 * @return
+	 */
+	public byte[] getImage() {
+		byte[] b = new byte[image.length * 4];
+		int j = 0;
+		for (int i = 0; i < image.length; i++) {
+			b[j++] = (byte) (image[i] >> 24);
+			b[j++] = (byte) (image[i] >> 16);
+			b[j++] = (byte) (image[i] >> 8);
+			b[j++] = (byte) (image[i]);
+		}
+
+		return b;
+	}
+
 	@Override
 	public String toString() {
 		return "image[" + getSize() + "bytes]";

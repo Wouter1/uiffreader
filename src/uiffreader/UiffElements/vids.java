@@ -31,20 +31,3 @@ public class vids extends AbstractElement {
 		return this;
 	}
 }
-
-class videoInfo {
-
-	private List<Integer> settings;
-	private List<Integer> palette;
-
-	public videoInfo(List<Integer> settings, List<Integer> palette) {
-		this.settings = settings;
-		this.palette = palette;
-	}
-
-	@Override
-	public String toString() {
-		return "videoInfo[" + settings + "]";
-	}
-
-}

@@ -30,7 +30,7 @@ public class E00bb extends AbstractLinkedElement {
 		}
 		data.setHeader(header);
 		int size = data.getSize();
-		int[] image = new int[size];
+		int[] image = new int[size / 4];
 		for (int n = 0; n < size / 4; n++) {
 			image[n] = (int) substream.getInt();
 		}
