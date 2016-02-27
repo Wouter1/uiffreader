@@ -17,8 +17,12 @@ You need to have at least java 1.6 installed. You can check which version is on 
 ## Usage
 
 TO convert a .tvd file into a set of images
+
 1. download (from releases) or build the convert.jar
+
 2. from the console, execute ```java -jar convert.jar <path to your tvd file>``` in the directory where you downloaded the jar. 
+
 3. The images contained in the .tvd file will be written into a new created directory named "images"
+
 4. The structure of the tdv will be printed to the command line.
 
