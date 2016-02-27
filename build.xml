@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Create uiff image converter" basedir="." default="all">
+	<property name="PN" location="../PocketNegotiator" />
+
+	<target name="jar">
+		<jar destfile="target/convert.jar">
+			<fileset dir="bin/" />
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="read" />
+				<section name="common">
+					<attribute name="Specification-Title" value="UIFF image converter" />
+					<attribute name="Specification-Vendor" value="W.Pasman" />
+					<attribute name="Implementation-Title" value="UIFF image converter" />
+					<attribute name="Implementation-Version" value="${version} ${TODAY}" />
+					<attribute name="Implementation-Vendor" value="W.Pasman" />
+				</section>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="all" depends="jar">
+	</target>
+</project>

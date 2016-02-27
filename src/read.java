@@ -80,7 +80,7 @@ class read {
 				System.out.println("found image!" + data.getSize());
 				imagesWriter.write(data.getImage(), info);
 				// remove actual image data as modification (saves memory)
-				data.setImage(null);
+				// data.setImage(null);
 			}
 			return contents;
 		}
